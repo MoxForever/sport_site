@@ -4,15 +4,14 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from tortoise import Tortoise
 
-from models.api import Settings
 from endpoints import api_route
 from http_site import http_route
+from utills.tortoise_config import TORTOISE_ORM
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
-    await Tortoise.init(db_url=Settings().DB_URL, modules={"models": ["models"]})
-    await Tortoise.generate_schemas()
+async def lifespan(_: FastAPI):
+    await Tortoise.init(config=TORTOISE_ORM)
 
     yield
 
