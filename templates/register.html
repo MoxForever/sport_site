@@ -1,0 +1,77 @@
+{% extends "default.html" %}
+
+{% block page_name %} Регистрация {% endblock %}
+
+{% block content %}
+<h2 class="text-center py-3">Регистрация</h2>
+<form class="needs-validation" id="register_data"
+    onsubmit="return on_register()" novalidate>
+    <div class="mb-3">
+        <label for="fio">ФИО</label>
+        <input type="text" class="form-control" id="fio"
+            placeholder="Иванов Иванов Иванович">
+    </div>
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email"
+            placeholder="Почта">
+    </div>
+    <div class="mb-3">
+        <label for="user_type">Выберите, кто вы:</label><br>
+        <select class="form-control" id="user_type" name="user_type">
+            <option selected disabled hidden>...</option>
+            <option value="ADMIN">Администратор</option>
+            <option value="JUDGE">Судья</option>
+            <option value="ATHLETE">Спортсмен</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="city">Город:</label><br>
+        <select class="form-control" id="city" name="city">
+            <option selected disabled hidden>...</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="password">Пароль</label>
+        <input type="password" class="form-control" id="password"
+            placeholder="Пароль">
+    </div>
+    <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
+</form>
+<script>
+    window.onload = function () {
+        fetch("/api/data/cities").then(r => r.json().then(d => {
+            let city_select = document.getElementById("city");
+            for (let i of d) {
+                let option = document.createElement("option");
+                option.value = i.id;
+                option.textContent = i.name;
+                city_select.appendChild(option);
+            }
+        }))
+    }
+
+    function on_register() {
+        let form = document.getElementById("register_data");
+        fetch("/api/users/register", {
+            method: "POST",
+            body: JSON.stringify({
+                fio: form.elements['fio'].value,
+                email: form.elements['email'].value,
+                city_id: +form.elements['city'].value,
+                password: form.elements['password'].value,
+                user_type: form.elements['user_type'].value,
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        }).then(r => r.json().then(d => {
+            if (r.status == 200) {
+                alert('Ваша заявка принята! Ожидайте подтверждения от организатора соревнований');
+                window.location.href = "/";
+            }
+        }))
+        return false;
+    }
+</script>
+{% endblock %}

@@ -17,10 +17,24 @@ class RegisterData(BaseModel):
     fio: str
     email: str
     city_id: int
-    password: str
+    password: str | None
     user_type: UserType
 
 
 class LogInData(BaseModel):
     email: str
     password: str
+
+
+class UserAPI(BaseModel):
+    id: int
+    fio: str
+    email: str
+    city_id: int
+    user_type: UserType
+    confirmed: bool
+
+
+class CityAPI(BaseModel):
+    id: int
+    name: str

@@ -17,6 +17,7 @@ class UserDB(Model):
     id = fields.IntField(pk=True, null=False)
     fio = fields.CharField(256, null=False)
     city = fields.ForeignKeyField("models.CityDB", null=False)
+    email = fields.CharField(max_length=320, null=False, unique=True)
     user_type = fields.CharEnumField(UserType)
     confirmed = fields.BooleanField(null=False, default=False)
     password_hashed = fields.CharField(256, null=True)
@@ -37,7 +38,13 @@ class TournamentDB(Model):
     id = fields.IntField(pk=True, null=False)
     city = fields.ForeignKeyField("models.CityDB", null=False)
 
+    class Meta:
+        table = "tournaments"
+
 
 class MatchDB(Model):
     id = fields.IntField(pk=True, null=False)
     tournament = fields.ForeignKeyField("models.TournamentDB", null=False)
+
+    class Meta:
+        table = "match"

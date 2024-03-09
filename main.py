@@ -12,6 +12,7 @@ from utills.tortoise_config import TORTOISE_ORM
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     await Tortoise.init(config=TORTOISE_ORM)
+    await Tortoise.generate_schemas()
 
     yield
 
