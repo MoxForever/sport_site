@@ -36,7 +36,10 @@ class UserDB(Model):
 
 class TournamentDB(Model):
     id = fields.IntField(pk=True, null=False)
+    name = fields.CharField(128, null=False)
     city = fields.ForeignKeyField("models.CityDB", null=False)
+    start_date = fields.DatetimeField(null=False)
+    end_date = fields.DatetimeField(null=False)
 
     class Meta:
         table = "tournaments"

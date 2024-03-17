@@ -9,24 +9,34 @@
             rel="stylesheet"
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
             crossorigin="anonymous">
-        <link rel="stylesheet" href="/static/index.css">
+        <link rel="stylesheet" href="/static/css/index.css">
+        <script src="/static/js/_template.js" type="module"></script>
+        {% block head %}
+        {% endblock %}
     </head>
     <body>
         <header class="bg-dark text-white py-4">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
-                    <div class="col-md-auto">
+                    <div class="col-md-auto mb-3">
                         <h1>
                             <a href="/" class="site-label">Спортивные
                                 чувачки</a>
                             | {% block page_name %}{% endblock %}
                         </h1>
                     </div>
-                    <div class="col-md-auto">
+                    <div class="col-md-auto d-none mb-3" id="no_login">
                         <button type="button" class="btn btn-light mr-2"
                             onclick="window.location.href = '/log_in'">Войти</button>
                         <button type="button" class="btn btn-light"
                             onclick="window.location.href = '/register'">Зарегестрироваться</button>
+                    </div>
+                    <div class="col-md-auto d-none mb-3" id="login">
+                        <button type="button" class="btn btn-light mr-2"
+                            onclick="window.location.href = '/admin'">Личный
+                            кабинет</button>
+                        <button type="button" class="btn btn-light mr-2"
+                            id="log_out">Выйти</button>
                     </div>
                 </div>
             </div>

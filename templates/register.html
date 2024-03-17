@@ -1,11 +1,15 @@
-{% extends "default.html" %}
+{% extends "_template.html" %}
 
 {% block page_name %} Регистрация {% endblock %}
 
+{% block head %}
+<script type="module" src="/static/js/register.js"></script>
+{% endblock %}
+
 {% block content %}
 <h2 class="text-center py-3">Регистрация</h2>
-<form class="needs-validation" id="register_data"
-    onsubmit="return on_register()" novalidate>
+<form class="needs-validation" id="register_data" onsubmit="return false;"
+    novalidate>
     <div class="mb-3">
         <label for="fio">ФИО</label>
         <input type="text" class="form-control" id="fio"
@@ -26,8 +30,8 @@
         </select>
     </div>
     <div class="mb-3">
-        <label for="city">Город:</label><br>
-        <select class="form-control" id="city" name="city">
+        <label for="city_id">Город:</label><br>
+        <select class="form-control" id="city_id" name="city_id">
             <option selected disabled hidden>...</option>
         </select>
     </div>
@@ -36,42 +40,7 @@
         <input type="password" class="form-control" id="password"
             placeholder="Пароль">
     </div>
+    <p id="invalid_data" class="text-danger"></p>
     <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
 </form>
-<script>
-    window.onload = function () {
-        fetch("/api/data/cities").then(r => r.json().then(d => {
-            let city_select = document.getElementById("city");
-            for (let i of d) {
-                let option = document.createElement("option");
-                option.value = i.id;
-                option.textContent = i.name;
-                city_select.appendChild(option);
-            }
-        }))
-    }
-
-    function on_register() {
-        let form = document.getElementById("register_data");
-        fetch("/api/users/register", {
-            method: "POST",
-            body: JSON.stringify({
-                fio: form.elements['fio'].value,
-                email: form.elements['email'].value,
-                city_id: +form.elements['city'].value,
-                password: form.elements['password'].value,
-                user_type: form.elements['user_type'].value,
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        }).then(r => r.json().then(d => {
-            if (r.status == 200) {
-                alert('Ваша заявка принята! Ожидайте подтверждения от организатора соревнований');
-                window.location.href = "/";
-            }
-        }))
-        return false;
-    }
-</script>
 {% endblock %}

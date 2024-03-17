@@ -1,0 +1,19 @@
+{% extends "_template.html" %}
+
+{% block page_name %} Города {% endblock %}
+
+{% block head %}
+<script type="module" src="/static/js/admin/cities.js"></script>
+<script type="module" src="/static/js/admin/check_rights.js"></script>
+{% endblock %}
+
+{% block content %}
+<h3><a href="/admin">Назад</a></h3>
+<ul class="list-group mt-3" id="cities">
+    <li
+        class="list-group-item d-flex justify-content-between align-items-center">
+        <input class="form-control me-2" id="new_city_input" type="text" placeholder="Город...">
+        <button class="btn btn-primary" id="new_city_btn">Добавить</button>
+    </li>
+</ul>
+{% endblock %}

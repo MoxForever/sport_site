@@ -1,0 +1,14 @@
+{% extends "_template.html" %}
+
+{% block page_name %} Запросы регистрации {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/css/requests.css">
+<script type="module" src="/static/js/admin/check_rights.js"></script>
+<script type="module" src="/static/js/admin/requests.js"></script>
+{% endblock %}
+
+{% block content %}
+<h3><a href="/admin">Назад</a></h3>
+<ul class="list-group" id="cards_list"></ul>
+{% endblock %}

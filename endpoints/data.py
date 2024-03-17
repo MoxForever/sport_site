@@ -9,5 +9,4 @@ data_route = APIRouter(prefix="/data")
 
 @data_route.get("/cities")
 async def cities(response: Response) -> list[CityAPI]:
-    response.headers["Cache-Control"] = "max-age=86400"
     return list(map(city_to_model, await CityDB.all()))

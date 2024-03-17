@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from tortoise import Tortoise
 
-from endpoints import api_route
+from endpoints import api_app
 from http_site import http_route
 from utills.tortoise_config import TORTOISE_ORM
 
@@ -19,7 +19,7 @@ async def lifespan(_: FastAPI):
     await Tortoise.close_connections()
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, redoc_url=None, openapi_url=None, docs_url=None)
 app.mount("/static", StaticFiles(directory="static"), name="static")
-app.include_router(api_route)
+app.mount("/api", api_app)
 app.include_router(http_route)
