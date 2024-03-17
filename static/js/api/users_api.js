@@ -1,5 +1,4 @@
 export const UserAPI = {
-    me: null,
     InvalidFields: class extends Error {
         constructor(invalid_fields) {
             super(invalid_fields.join(", "));
@@ -47,6 +46,11 @@ export const UserAPI = {
         }
     },
     me: async function () {
+        let buffered = sessionStorage.getItem("me");
+        if (buffered !== null) {
+            return JSON.parse(buffered);
+        }
+
         let r = await fetch("/api/users/me");
         let data = await r.json();
 
@@ -54,7 +58,7 @@ export const UserAPI = {
         if (r.status == 200) me = data;
         else me = null;
 
-        UserAPI.me = me;
+        sessionStorage.setItem("me", JSON.stringify(me));
         return me;
     }
 };

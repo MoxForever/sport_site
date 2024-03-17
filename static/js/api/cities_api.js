@@ -1,5 +1,4 @@
 export const CitiesAPI = {
-    cities: {},
     delete: async function (id) {
         let r = await fetch("/api/admin/cities/delete", {
             method: "POST",
@@ -8,7 +7,11 @@ export const CitiesAPI = {
                 "Content-type": "application/json; charset=UTF-8"
             }
         });
-        if (r.status == 200) delete CitiesAPI.cities[id];
+        if (r.status == 200) {
+            let cities = JSON.parse(sessionStorage.getItem("cities"));
+            delete cities[id];
+            sessionStorage.setItem("cities", JSON.stringify(cities));
+        }
         else {
             let data = await r.json();
             throw data.detail;
@@ -23,16 +26,27 @@ export const CitiesAPI = {
             }
         });
         let data = await r.json();
-        if (r.status == 200) CitiesAPI.cities[data.id] = data;
+        if (r.status == 200) {
+            let cities = JSON.parse(sessionStorage.getItem("cities"));
+            cities[data.id] = data;
+            sessionStorage.setItem("cities", JSON.stringify(cities));
+        }
         else throw data.detail;
     },
     fetch: async function () {
-        if (Object.keys(CitiesAPI.cities).length > 0) return CitiesAPI.cities;
+        let buffered = sessionStorage.getItem("cities");
+        if (buffered !== null) {
+            return JSON.parse(buffered);
+        }
+
         let r = await fetch("/api/data/cities");
         let data = await r.json();
+
+        let cities = {};
         if (r.status == 200) {
-            for (let i of data) CitiesAPI.cities[i.id] = i;
-            return CitiesAPI.cities;
+            for (let i of data) cities[i.id] = i;
+            sessionStorage.setItem("cities", JSON.stringify(cities));
+            return cities;
         }
         else throw data.detail;
     }

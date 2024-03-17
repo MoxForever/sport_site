@@ -33,5 +33,5 @@ class TournamentAPI(BaseModel):
     id: int
     name: str
     city_id: int
-    start_date: datetime.datetime
-    end_date: datetime.datetime
+    start_date: datetime.date
+    end_date: datetime.date

@@ -1,0 +1,34 @@
+{% extends "_template.html" %}
+
+{% block page_name %} Новое соревнование {% endblock %}
+
+{% block head %}
+<script type="module" src="/static/js/admin/check_rights.js"></script>
+<script type="module" src="/static/js/admin/tournaments/new.js"></script>
+{% endblock %}
+
+{% block content %}
+<h3><a href="/admin/tournaments">Назад</a></h3>
+<form id="new_tournament" onsubmit="return false;" novalidate>
+    <div class="mb-3">
+        <label for="name" class="form-label">Имя соревнования</label>
+        <input type="text" class="form-control" id="name" name="name">
+    </div>
+    <div class="mb-3">
+        <label for="city_id" class="form-label">Город проведения</label>
+        <select class="form-select" id="city_id" name="city_id">
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="start_date" class="form-label">Дата начала</label>
+        <input type="date" class="form-control" id="start_date"
+            name="start_date">
+    </div>
+    <div class="mb-3">
+        <label for="end_date" class="form-label">Дата окончания</label>
+        <input type="date" class="form-control" id="end_date" name="end_date">
+    </div>
+    <p id="invalid_data" class="text-danger"></p>
+    <button type="submit" class="btn btn-primary">Создать</button>
+</form>
+{% endblock %}

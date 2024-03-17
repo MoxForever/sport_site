@@ -11,8 +11,8 @@ tournaments_route = APIRouter(prefix="/tournaments")
 class CreateTournamentData(BaseModel):
     city_id: int
     name: str
-    start_date: datetime.datetime
-    end_date: datetime.datetime
+    start_date: datetime.date
+    end_date: datetime.date
 
 
 @tournaments_route.post("/create")
@@ -29,14 +29,7 @@ async def create_tournament(data: CreateTournamentData):
 
 @tournaments_route.get("/list")
 async def list_tournaments():
-    return list(
-        map(
-            tournament_to_model,
-            await TournamentDB.filter(
-                end_date__lte=datetime.datetime.now(tz=datetime.timezone.utc)
-            ),
-        )
-    )
+    return list(map(tournament_to_model, await TournamentDB.all()))
 
 
 @tournaments_route.get("/get")
