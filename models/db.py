@@ -4,19 +4,9 @@ from tortoise import fields
 
 from models.api import UserType
 
-
-class CityDB(Model):
-    id = fields.IntField(pk=True, null=False)
-    name = fields.CharField(64, null=False)
-
-    class Meta:
-        table = "cities"
-
-
 class UserDB(Model):
     id = fields.IntField(pk=True, null=False)
     fio = fields.CharField(256, null=False)
-    city = fields.ForeignKeyField("models.CityDB", null=False)
     email = fields.CharField(max_length=320, null=False, unique=True)
     user_type = fields.CharEnumField(UserType)
     confirmed = fields.BooleanField(null=False, default=False)
@@ -37,7 +27,6 @@ class UserDB(Model):
 class TournamentDB(Model):
     id = fields.IntField(pk=True, null=False)
     name = fields.CharField(128, null=False)
-    city = fields.ForeignKeyField("models.CityDB", null=False)
     start_date = fields.DateField(null=False)
     end_date = fields.DateField(null=False)
 
@@ -45,9 +34,24 @@ class TournamentDB(Model):
         table = "tournaments"
 
 
+class TeamDB(Model):
+    id = fields.IntField(pk=True, null=False)
+    user_1 = fields.ForeignKeyField("models.UserDB", null=False, related_name=False)
+    user_2 = fields.ForeignKeyField("models.UserDB", null=False, related_name=False)
+    tournament = fields.ForeignKeyField("models.TournamentDB", null=False)
+
+    class Meta:
+        table = "teams"
+
+
+
 class MatchDB(Model):
     id = fields.IntField(pk=True, null=False)
+    team_1 = fields.ForeignKeyField("models.TeamDB", null=False, related_name=False)
+    team_2 = fields.ForeignKeyField("models.TeamDB", null=False, related_name=False)
     tournament = fields.ForeignKeyField("models.TournamentDB", null=False)
+    judge = fields.ForeignKeyField("models.UserDB", null=True)
+    start = fields.DatetimeField(null=True)
 
     class Meta:
         table = "match"

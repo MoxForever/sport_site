@@ -8,6 +8,7 @@ export const UserAPI = {
     },
     logOut: function () {
         document.cookie = 'user=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        sessionStorage.removeItem("me");
     },
     logIn: async function (email, password) {
         let r = await fetch("/api/users/log_in", {
@@ -21,13 +22,12 @@ export const UserAPI = {
         if (r.status == 200) return data;
         else if (r.status == 400) throw data.detail;
     },
-    register: async function (fio, email, city_id, password, user_type) {
+    register: async function (fio, email, password, user_type) {
         let r = await fetch("/api/users/register", {
             method: "POST",
             body: JSON.stringify({
                 fio: fio,
                 email: email,
-                city_id: city_id,
                 password: password,
                 user_type: user_type
             }),
@@ -56,6 +56,11 @@ export const UserAPI = {
 
         let me;
         if (r.status == 200) me = data;
+        else if (r.status == 400) {
+            sessionStorage.removeItem("me");
+            UserAPI.logOut();
+            return null;
+        }
         else me = null;
 
         sessionStorage.setItem("me", JSON.stringify(me));

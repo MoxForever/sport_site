@@ -19,6 +19,7 @@ async function logIn() {
     }
 
     if (user.user_type == "ADMIN") window.location.href = "/admin";
+    else if (user.user_type == "JUDGE") window.location.href = "/judge";
 }
 
 window.addEventListener("load", function () {

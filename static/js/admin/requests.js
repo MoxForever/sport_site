@@ -1,4 +1,3 @@
-import { CitiesAPI } from "/static/js/api/cities_api.js";
 import { RequestsAPI } from "/static/js/api/requests_api.js";
 
 
@@ -18,25 +17,20 @@ async function createCard(user) {
     user_info.classList.add("flex-fill");
     row.appendChild(user_info);
 
-    let fio = document.createElement("flex-fill");
+    let fio = document.createElement("h3");
     fio.classList.add("card-title");
     fio.textContent = user.fio;
     user_info.appendChild(fio);
 
     let email = document.createElement("p");
     email.classList.add("card-text");
-    fio.textContent = "Email: " + user.email;
+    email.textContent = "Email: " + user.email;
     user_info.appendChild(email);
-
-    let city = document.createElement("p");
-    city.classList.add("card-text");
-    city.textContent = "Город: " + (await CitiesAPI.fetch())[user.city_id].name;
-    user_info.appendChild(city);
 
     let account_type = document.createElement("p");
     account_type.classList.add("card-text");
     account_type.textContent = "Тип аккаунта: " + {
-        "ADMIN": "Администратор","JURDJE": "Судья","ATHLETE": "Участник"
+        "ADMIN": "Администратор","JUDGE": "Судья","ATHLETE": "Участник"
     }[user.user_type];
     user_info.appendChild(account_type);
 

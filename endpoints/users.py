@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request, Response
 from pydantic import BaseModel
 from tortoise.exceptions import IntegrityError
+import urllib.parse
 
 from models.api import UserAPI, UserType
 from models.db import UserDB
@@ -13,7 +14,6 @@ users_route = APIRouter(prefix="/users")
 class RegisterData(BaseModel):
     fio: str
     email: str
-    city_id: int
     password: str | None
     user_type: UserType
 
@@ -35,7 +35,10 @@ async def me(request: Request, response: Response) -> UserAPI:
         response.delete_cookie("user")
         raise HTTPException(status_code=400, detail="Сессия просрочена")
 
-    return user_to_model(await UserDB.get(id=user_data["user_id"]))
+    user = await UserDB.get_or_none(id=user_data["user_id"])
+    if user is None:
+        raise HTTPException(status_code=400, detail="User does not exists")
+    return user_to_model(user)
 
 
 @users_route.post("/register")
@@ -47,7 +50,6 @@ async def register(data: RegisterData) -> UserAPI:
 
     user = UserDB(
         fio=data.fio,
-        city_id=data.city_id,
         email=data.email,
         user_type=data.user_type,
     )
@@ -78,5 +80,7 @@ async def log_in(data: LogInData, response: Response) -> UserAPI:
             detail="Ваша учетная запись не подтверждена, свяжитесь с организатором соревнований",
         )
 
-    response.set_cookie("user", create_cookie({"user_id": user.id}), max_age=604800)
+    response.set_cookie(
+        "user", create_cookie({"user_id": user.id}), max_age=604800
+    )
     return user_to_model(user)

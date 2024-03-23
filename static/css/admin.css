@@ -1,3 +1,14 @@
 .list-group-item a {
     text-decoration: none;
 }
+
+.custom-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.custom-row .card {
+    flex: 1 0 32%;
+}

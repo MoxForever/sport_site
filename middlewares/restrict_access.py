@@ -1,4 +1,5 @@
 from fastapi.responses import JSONResponse
+from starlette.types import ASGIApp
 from starlette.requests import Request
 from starlette.responses import Response
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -8,7 +9,11 @@ from models.db import UserDB
 from utills.cookie import CookieInvalid, get_cookie_data
 
 
-class DatabaseMiddleware(BaseHTTPMiddleware):
+class RestrictAccess(BaseHTTPMiddleware):
+    def __init__(self, app: ASGIApp, allowed: UserType):
+        super().__init__(app)
+        self.allowed = allowed
+
     async def dispatch(self, request: Request, call_next) -> Response:
         cookies = list(
             filter(
@@ -21,11 +26,10 @@ class DatabaseMiddleware(BaseHTTPMiddleware):
         else:
             try:
                 user = get_cookie_data(cookies[0].split("=", 1)[1])
+                user = await UserDB.get_or_none(id=user["user_id"])
+                if user and user.user_type != self.allowed:
+                    user = None
             except CookieInvalid:
-                user = None
-
-        if user is not None:
-            if (await UserDB.get(id=user["user_id"])).user_type != UserType.ADMIN:
                 user = None
 
         if user is None:

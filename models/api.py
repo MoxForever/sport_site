@@ -19,19 +19,28 @@ class UserAPI(BaseModel):
     id: int
     fio: str
     email: str
-    city_id: int
     user_type: UserType
     confirmed: bool
-
-
-class CityAPI(BaseModel):
-    id: int
-    name: str
 
 
 class TournamentAPI(BaseModel):
     id: int
     name: str
-    city_id: int
     start_date: datetime.date
     end_date: datetime.date
+
+
+class TeamAPI(BaseModel):
+    id: int
+    user_1_id: int
+    user_2_id: int
+    tournament_id: int
+
+
+class MatchAPI(BaseModel):
+    id: int
+    judge_id: int | None
+    start: datetime.datetime | None
+    team_1: TeamAPI
+    team_2: TeamAPI
+    tournament_id: int

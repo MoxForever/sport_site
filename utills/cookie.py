@@ -15,13 +15,15 @@ def create_cookie(data: dict) -> str:
     second = hashlib.sha256(
         f"{first}:{Settings().SECRET_TOKEN}".encode("utf-8")
     ).hexdigest()
-    return f"{first}:{second}"
+    return f"{first}.{second}".strip('"')
 
 
 def get_cookie_data(cookie: str) -> dict[str, Any]:
-    cookie_data = json.loads(base64.b64decode(cookie.split(":")[0].encode("utf-8")))
+    cookie_data = json.loads(
+        base64.b64decode(cookie.strip('"').split(":")[0].encode("utf-8"))
+    )
     valid_cookie = create_cookie(cookie_data)
-    if valid_cookie != cookie:
+    if valid_cookie != cookie.strip('"'):
         raise CookieInvalid()
 
     return cookie_data
