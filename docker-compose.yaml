@@ -2,6 +2,7 @@ version: '3.1'
 
 services:
   sport_site:
+    restart: always
     env_file:
       - .env
     build:
