@@ -1,5 +1,3 @@
-version: '3.1'
-
 services:
   sport_site:
     restart: always
