@@ -6,6 +6,12 @@ function logOut() {
     window.location.href = "/";
 }
 
+async function lkRedirect() {
+    let user = await UserAPI.me();
+    if (user?.user_type == "ADMIN") window.location.href = "/admin";
+    else if (user?.user_type == "JUDGE") window.location.href = "/judge";
+}
+
 window.addEventListener("load", function () {
     let is_login = false;
     for (let i of document.cookie.split("; ")) {
@@ -19,4 +25,5 @@ window.addEventListener("load", function () {
     else document.getElementById("no_login").classList.remove("d-none");
 
     document.querySelector("#log_out").addEventListener("click", logOut);
+    document.querySelector("#lk").addEventListener("click", lkRedirect);
 });

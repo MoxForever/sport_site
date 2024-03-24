@@ -77,7 +77,7 @@ async function createTeamCard(match) {
     let time_select = document.createElement("input");
     time_label.htmlFor = "time";
     time_label.textContent = "Время начала матча";
-    if (match.start) time_select.value = match.start.slice(0, -1);
+    if (match.start !== null) time_select.value = match.start.slice(0, -1);
     time_select.id = "time"
     time_select.type = "datetime-local";
     time_select.onchange = async _ => await editMatchCard(card, match.id);

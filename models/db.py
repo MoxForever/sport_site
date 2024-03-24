@@ -47,11 +47,14 @@ class TeamDB(Model):
 
 class MatchDB(Model):
     id = fields.IntField(pk=True, null=False)
+    score_1 = fields.IntField(null=False, default=0)
+    score_2 = fields.IntField(null=False, default=0)
     team_1 = fields.ForeignKeyField("models.TeamDB", null=False, related_name=False)
     team_2 = fields.ForeignKeyField("models.TeamDB", null=False, related_name=False)
     tournament = fields.ForeignKeyField("models.TournamentDB", null=False)
     judge = fields.ForeignKeyField("models.UserDB", null=True)
     start = fields.DatetimeField(null=True)
+    end = fields.DatetimeField(null=True)
 
     class Meta:
         table = "match"

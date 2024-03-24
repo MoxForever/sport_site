@@ -11,7 +11,7 @@ from .teams import teams_route
 
 
 admin_app = FastAPI(
-    middleware=[Middleware(RestrictAccess, allowed=UserType.ADMIN)],
+    middleware=[Middleware(RestrictAccess)],
     redoc_url=None,
     openapi_url=None,
     docs_url=None,

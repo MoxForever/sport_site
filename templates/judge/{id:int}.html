@@ -1,0 +1,38 @@
+{% extends "_template.html" %}
+
+{% block page_name %} Судейство {% endblock %}
+
+{% block head %}
+<script type="module" src="/static/js/judge/check_rights.js"></script>
+<script type="module" src="/static/js/judge/id.js"></script>
+{% endblock %}
+
+{% block content %}
+<h1 id="t"></h1>
+<div class="row mt-4">
+    <div class="col-sm text-center">
+        <h2 id="u_1"></h2>
+        <h5 id="u_1_1"></h5>
+        <h5 id="u_1_2"></h5>
+        <div class="btn-group mt-2" role="group">
+            <button class="btn btn-success" id="team_1_add">Добавить</button>
+            <button class="btn btn-danger" id="team_1_decrease">Убрать</button>
+        </div>
+    </div>
+    <div class="col-sm d-flex align-items-center justify-content-center">
+        <h2 id="scores">10 - 10</h2>
+    </div>
+    <div class="col-sm text-center">
+        <h2 id="u_2"></h2>
+        <h5 id="u_2_1"></h5>
+        <h5 id="u_2_2"></h5>
+        <div class="btn-group mt-2" role="group">
+            <button class="btn btn-success" id="team_2_add">Добавить</button>
+            <button class="btn btn-danger" id="team_2_decrease">Убрать</button>
+        </div>
+    </div>
+</div>
+<div class="col-sm text-center mt-2" role="group">
+    <button class="btn btn-primary" id="stop">Закончить соревнование</button>
+</div>
+{% endblock %}

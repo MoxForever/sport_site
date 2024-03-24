@@ -1,12 +1,13 @@
 {% extends "_template.html" %}
 
-{% block page_name %} Главная {% endblock %}
+{% block page_name %} Матчи {% endblock %}
 
 {% block head %}
-<script type="module" src="/static/js/jurge/check_rights.js"></script>
+<script type="module" src="/static/js/judge/check_rights.js"></script>
+<script type="module" src="/static/js/judge/index.js"></script>
 {% endblock %}
 
 {% block content %}
 <h2>Предстоящие матчи</h2>
-<ul class="list-group"></ul>
+<ul class="list-group" id="matches"></ul>
 {% endblock %}

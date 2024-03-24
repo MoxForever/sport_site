@@ -20,7 +20,7 @@ def create_cookie(data: dict) -> str:
 
 def get_cookie_data(cookie: str) -> dict[str, Any]:
     cookie_data = json.loads(
-        base64.b64decode(cookie.strip('"').split(":")[0].encode("utf-8"))
+        base64.b64decode(cookie.strip('"').split(".")[0].encode("utf-8"))
     )
     valid_cookie = create_cookie(cookie_data)
     if valid_cookie != cookie.strip('"'):

@@ -18,16 +18,22 @@ CREATE TABLE IF NOT EXISTS "users" (
     "password_hashed" VARCHAR(256)
 );
 COMMENT ON COLUMN "users"."user_type" IS 'ATHLETE: ATHLETE\nJUDGE: JUDGE\nADMIN: ADMIN';
-CREATE TABLE IF NOT EXISTS "match" (
-    "id" SERIAL NOT NULL PRIMARY KEY,
-    "judge_id" INT NOT NULL REFERENCES "users" ("id") ON DELETE CASCADE,
-    "tournament_id" INT NOT NULL REFERENCES "tournaments" ("id") ON DELETE CASCADE
-);
 CREATE TABLE IF NOT EXISTS "teams" (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "tournament_id" INT NOT NULL REFERENCES "tournaments" ("id") ON DELETE CASCADE,
     "user_1_id" INT NOT NULL REFERENCES "users" ("id") ON DELETE CASCADE,
     "user_2_id" INT NOT NULL REFERENCES "users" ("id") ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "match" (
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "score_1" INT NOT NULL  DEFAULT 0,
+    "score_2" INT NOT NULL  DEFAULT 0,
+    "start" TIMESTAMPTZ,
+    "end" TIMESTAMPTZ,
+    "judge_id" INT REFERENCES "users" ("id") ON DELETE CASCADE,
+    "team_1_id" INT NOT NULL REFERENCES "teams" ("id") ON DELETE CASCADE,
+    "team_2_id" INT NOT NULL REFERENCES "teams" ("id") ON DELETE CASCADE,
+    "tournament_id" INT NOT NULL REFERENCES "tournaments" ("id") ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS "aerich" (
     "id" SERIAL NOT NULL PRIMARY KEY,

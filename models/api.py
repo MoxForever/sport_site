@@ -37,10 +37,31 @@ class TeamAPI(BaseModel):
     tournament_id: int
 
 
+class TeamFullAPI(BaseModel):
+    id: int
+    user_1: UserAPI
+    user_2: UserAPI
+    tournament: TournamentAPI
+
+
 class MatchAPI(BaseModel):
     id: int
     judge_id: int | None
     start: datetime.datetime | None
+    end: datetime.datetime | None
     team_1: TeamAPI
     team_2: TeamAPI
+    score_1: int
+    score_2: int
     tournament_id: int
+
+class MatchFullAPI(BaseModel):
+    id: int
+    judge: UserAPI | None
+    start: datetime.datetime | None
+    end: datetime.datetime | None
+    team_1: TeamFullAPI
+    team_2: TeamFullAPI
+    score_1: int
+    score_2: int
+    tournament: TournamentAPI
