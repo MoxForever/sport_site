@@ -13,7 +13,7 @@ class Settings(BaseSettings):
 
     @property
     def DB_URL(self):
-        return f"mysql://root:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        return f"postgres://postgres:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
 
 class UserType(Enum):

@@ -14,8 +14,8 @@ services:
       - mysql
       - rabbitmq
 
-  mysql:
-    image: mysql
+  postgres:
+    image: postgres
     restart: always
     env_file:
       - .env
@@ -24,11 +24,10 @@ services:
     ports:
       - $DB_PORT:$DB_PORT
     environment:
-      MYSQL_ROOT_PASSWORD: $DB_PASSWORD
-      MYSQL_DATABASE: $DB_NAME
-      MYSQL_ROOT_HOST: '%'
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql
 
   rabbitmq:
     image: rabbitmq:3-management
