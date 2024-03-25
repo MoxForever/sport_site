@@ -11,7 +11,7 @@ services:
     networks:
       - sport_site_network
     depends_on:
-      - mysql
+      - postgres
       - rabbitmq
 
   postgres:
@@ -47,4 +47,4 @@ networks:
 
 volumes:
   rabbitmq_data:
-  mysql_data:
+  postgres_data:
