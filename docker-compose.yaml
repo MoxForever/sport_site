@@ -12,6 +12,7 @@ services:
       - sport_site_network
     depends_on:
       - mysql
+      - rabbitmq
 
   mysql:
     image: mysql
@@ -26,6 +27,25 @@ services:
       MYSQL_ROOT_PASSWORD: $DB_PASSWORD
       MYSQL_DATABASE: $DB_NAME
       MYSQL_ROOT_HOST: '%'
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - sport_site_network
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
 networks:
   sport_site_network:
+
+volumes:
+  rabbitmq_data:
+  mysql_data:

@@ -31,7 +31,7 @@ async def list_mathes(tournament_id: int):
     return list(
         map(
             match_to_model,
-            await MatchDB.filter(tournament_id=tournament_id, end__not_isnull=True)
+            await MatchDB.filter(tournament_id=tournament_id)
             .order_by("start")
             .prefetch_related("team_1", "team_2"),
         )

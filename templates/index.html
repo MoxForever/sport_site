@@ -3,73 +3,13 @@
 {% block page_name %} Главная {% endblock %}
 
 {% block head %}
+<link rel="stylesheet" href="/static/css/flexrows.css">
 <script src="/static/js/index.js"></script>
 {% endblock %}
 
 {% block content %}
-<div id="myCarousel" class="carousel slide" data-ride="carousel"
-    data-interval="false">
-    <div class="carousel-inner" id="tournament_list"></div>
-
-    <a class="carousel-control-prev" href="#myCarousel"
-        role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon"
-            aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#myCarousel"
-        role="button" data-slide="next">
-        <span class="carousel-control-next-icon"
-            aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
-
-<!-- <table class="table table-bordered">
-    <tr>
-        <th class="col"></th>
-        <th class="col table-primary">1</th>
-        <th class="col table-primary">2</th>
-        <th class="col table-primary">3</th>
-        <th class="col table-primary">4</th>
-    </tr>
-    <tr>
-        <th class="col table-primary">1</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-    </tr>
-    <tr>
-        <th class="col table-primary">2</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-    </tr>
-    <tr>
-        <th class="col table-primary">3</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-    </tr>
-    <tr>
-        <th class="col table-primary">4</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-        <td class="col">x</th>
-    </tr>
-</table> -->
+<h2 class="text-center py-3" id="t_name"></h2>
+<table class="table table-bordered" id="table"></table>
 <h2 class="text-center py-3">Матчи сейчас</h2>
-<div class="card-container">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">№1 - №2</h5>
-            <p class="card-text">Время начала: 18:32</p>
-            <p class="card-text">Счет: 1-1</p>
-        </div>
-    </div>
-</div>
+<div class="card-container custom-row" id="matches"></div>
 {% endblock %}
