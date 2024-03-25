@@ -22,7 +22,7 @@ services:
     networks:
       - sport_site_network
     ports:
-      - $DB_PORT:$DB_PORT
+      - $DB_PORT:5432
     environment:
       POSTGRES_PASSWORD: $DB_PASSWORD
       POSTGRES_DB: $DB_NAME
