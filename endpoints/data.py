@@ -25,6 +25,9 @@ async def event_generator(request):
         tournament = await TournamentDB.filter(
             end_date__gt=datetime.datetime.now(tz=datetime.timezone.utc)
         ).first()
+        if tournament is None:
+            return
+
         matches = await MatchDB.filter(tournament=tournament).prefetch_related(
             "team_1", "team_2", "judge", "tournament"
         )
