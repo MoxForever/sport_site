@@ -11,12 +11,13 @@ services:
     networks:
       - sport_site_network
     depends_on:
-      - postgres
+      - mysql
       - rabbitmq
 
-  postgres:
-    image: postgres
+  mysql:
+    image: mysql
     restart: always
+    container_name: sport-site-mysql
     env_file:
       - .env
     networks:
@@ -24,14 +25,15 @@ services:
     ports:
       - $DB_PORT:5432
     environment:
-      POSTGRES_PASSWORD: $DB_PASSWORD
-      POSTGRES_DB: $DB_NAME
+      MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+      MYSQL_DATABASE: $DB_NAME
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - mysql_data:/var/lib/mysql
 
   rabbitmq:
     image: rabbitmq:3-management
     restart: always
+    container_name: sport-site-rabbitmq
     env_file:
       - .env
     networks:
@@ -47,4 +49,4 @@ networks:
 
 volumes:
   rabbitmq_data:
-  postgres_data:
+  mysql_data:

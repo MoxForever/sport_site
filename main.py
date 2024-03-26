@@ -13,6 +13,7 @@ from utills.tortoise_config import TORTOISE_ORM
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    print(TORTOISE_ORM)
     await Tortoise.init(config=TORTOISE_ORM)
     await Tortoise.generate_schemas()
     ampq = await aio_pika.connect_robust(Settings().RABBIT_URL)
