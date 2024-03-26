@@ -1,11 +1,12 @@
 import datetime
 from typing import Literal
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
 from models.db import MatchDB, UserDB
 from models.api import UserType
 from models.db_to_api import match_full_to_model, match_to_model, user_to_model
+from utills.events import send_event
 
 matches_route = APIRouter(prefix="/matches")
 
@@ -55,21 +56,23 @@ async def get_match(match_id: int):
 
 
 @matches_route.post("/end")
-async def end_match(data: EndMatch):
+async def end_match(data: EndMatch, request: Request):
     match = await MatchDB.get(id=data.id)
     match.end = datetime.datetime.now(tz=datetime.timezone.utc)
     await match.save()
+    await send_event(request.state.ampq)
     return "OK"
 
 
 @matches_route.post("/score")
-async def add_scores(data: ScoreMatch):
+async def add_scores(data: ScoreMatch, request: Request):
     match = await MatchDB.get_or_none(id=data.id)
     match.score_1 += data.team_1
     match.score_2 += data.team_2
     if match.score_1 < 0 or match.score_2 < 0:
         raise HTTPException(status_code=400, detail="Очков не может быть меньше нуля")
     await match.save()
+    await send_event(request.state.ampq)
 
     return "OK"
 
@@ -98,7 +101,7 @@ async def list_judges():
 
 
 @matches_route.post("/edit")
-async def edit_match(data: EditMatch):
+async def edit_match(data: EditMatch, request: Request):
     match = await MatchDB.get_or_none(id=data.id).prefetch_related("team_1", "team_2")
     if match is None:
         raise HTTPException(status_code=400, detail="Такого матча не существует")
@@ -106,4 +109,5 @@ async def edit_match(data: EditMatch):
     match.judge_id = data.judge_id
     match.start = data.start
     await match.save()
+    await send_event(request.state.ampq)
     return match_to_model(match)

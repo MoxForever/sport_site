@@ -12,7 +12,7 @@ class RestrictAccess(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next) -> Response:
         cookies = list(
             filter(
-                lambda i: i.startswith("user="),
+                lambda i: i.strip().startswith("user="),
                 request.headers.get("cookie", "").split(";"),
             )
         )
@@ -28,7 +28,7 @@ class RestrictAccess(BaseHTTPMiddleware):
                 user = None
 
         if user is None:
-            return JSONResponse(status_code=403, content={"detail": "Access denied"})
+            return JSONResponse(status_code=403, content={"detail": "Доступ запрещен"})
         else:
             request.state.user = user
             return await call_next(request)

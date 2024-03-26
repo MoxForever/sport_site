@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: int
     SECRET_TOKEN: str
+    RABBIT_URL: str
 
     @property
     def DB_URL(self):
@@ -61,6 +62,7 @@ class MatchAPI(BaseModel):
     score_1: int
     score_2: int
     tournament_id: int
+
 
 class MatchFullAPI(BaseModel):
     id: int

@@ -1,21 +1,26 @@
 from contextlib import asynccontextmanager
 
+import aio_pika
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from tortoise import Tortoise
 
 from endpoints import api_app
 from http_site import http_route
+from models.api import Settings
 from utills.tortoise_config import TORTOISE_ORM
 
 
 @asynccontextmanager
-async def lifespan(_: FastAPI):
+async def lifespan(app: FastAPI):
     await Tortoise.init(config=TORTOISE_ORM)
     await Tortoise.generate_schemas()
+    ampq = await aio_pika.connect_robust(Settings().RABBIT_URL)
+    print(ampq.transport)
 
-    yield
+    yield {"ampq": ampq}
 
+    await ampq.close()
     await Tortoise.close_connections()
 
 

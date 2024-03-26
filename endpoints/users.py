@@ -80,7 +80,5 @@ async def log_in(data: LogInData, response: Response) -> UserAPI:
             detail="Ваша учетная запись не подтверждена, свяжитесь с организатором соревнований",
         )
 
-    response.set_cookie(
-        "user", create_cookie({"user_id": user.id}), max_age=604800
-    )
+    response.set_cookie("user", create_cookie({"user_id": user.id}), max_age=604800)
     return user_to_model(user)

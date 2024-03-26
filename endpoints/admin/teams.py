@@ -26,7 +26,12 @@ class DeleteTeam(BaseModel):
 
 @teams_route.get("/candidates")
 async def list_candidates():
-    return list(map(user_to_model, await UserDB.filter(user_type=UserType.ATHLETE, confirmed=True)))
+    return list(
+        map(
+            user_to_model,
+            await UserDB.filter(user_type=UserType.ATHLETE, confirmed=True),
+        )
+    )
 
 
 @teams_route.post("/create")

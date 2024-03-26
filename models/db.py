@@ -4,6 +4,7 @@ from tortoise import fields
 
 from models.api import UserType
 
+
 class UserDB(Model):
     id = fields.IntField(pk=True, null=False)
     fio = fields.CharField(256, null=False)
@@ -42,7 +43,6 @@ class TeamDB(Model):
 
     class Meta:
         table = "teams"
-
 
 
 class MatchDB(Model):
