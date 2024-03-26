@@ -23,7 +23,7 @@ services:
     networks:
       - sport_site_network
     ports:
-      - $DB_PORT:5432
+      - $DB_PORT:3306
     environment:
       MYSQL_ROOT_PASSWORD: $DB_PASSWORD
       MYSQL_DATABASE: $DB_NAME
